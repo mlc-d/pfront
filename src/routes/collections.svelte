@@ -17,9 +17,9 @@
                         created_at: "",
                     };
                     l = collections.length;
+                    console.log(collections);
                 }
             })
-            //.catch(console.log());
     };
     let createCollection = () => {
         collectionData.name.trim()

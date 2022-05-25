@@ -1,4 +1,6 @@
 <script>
+  import {collections} from "../stores/collections.js";
+
   let products = [];
   let productData = {
     id: null,
@@ -9,16 +11,6 @@
     collection_id: null,
     created_at: "",
   };
-  let collections = [];
-  let showCollections = () => {
-    fetch("http://localhost:1323/api/v1/collections")
-      .then((response) => response.json())
-      .then((responseData) => {
-        collections = responseData;
-      })
-      //.catch(console.log());
-  };
-  showCollections();
   let showProducts = () => {
     fetch("http://localhost:1323/api/v1/products")
       .then((response) => response.json())
@@ -43,7 +35,7 @@
       description: productData.description,
       collection_id: productData.collection_id,
     };
-    var myHeaders = new Headers();
+    const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     fetch("http://localhost:1323/api/v1/products", {
       method: "POST",
@@ -144,16 +136,30 @@
                 id=""
                 bind:value={productData.collection_id}
               >
-                {#each collections as collection}
-                  <option value={collection.id}>{collection.name}</option>
-                {/each}
+                {#if $collections === null}
+                  <option>nada por aquí...</option>
+                  {:else}
+                  {#each $collections as collection}
+                    <option value={collection.id}>{collection.name}</option>
+                  {/each}
+                {/if}
               </select>
             </div>
+            {#if $collections === null}
             <button
               type="button"
               class="btn btn-light"
-              on:click|preventDefault={createProduct}>Crear</button
+              disabled
+            >Crear</button
             >
+              {:else}
+              <button
+                      type="button"
+                      class="btn btn-success"
+                      on:click|preventDefault={createProduct}
+              >Crear</button
+              >
+              {/if}
           </div>
         </div>
       </div>

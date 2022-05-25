@@ -5,6 +5,7 @@
     let userData = {
         id: null,
         name: "",
+        password: "",
         role_id: null,
     };
     let l = 0;
@@ -29,6 +30,7 @@
         myHeaders.append("Content-Type", "application/json");
         const newUser = {
             name: userData.name,
+            password: userData.password,
             rol_id: userData.role_id,
         };
         fetch("http://localhost:1323/api/v1/users", {
@@ -62,6 +64,15 @@
                             aria-describedby="helpId"
                             placeholder=""
                             bind:value={userData.name}
+                        />
+                        <label for="" class="form-label">Contraseña</label>
+                        <input
+                                type="password"
+                                class="form-control"
+                                name=""
+                                aria-describedby="helpId"
+                                placeholder=""
+                                bind:value={userData.password}
                         />
                         <div class="mb-3">
                             <label for="" class="form-label">Rol</label>
