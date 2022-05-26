@@ -26,12 +26,13 @@
     };
     let createUser = () => {
         userData.name.trim();
+        userData.name = userData.name.toLowerCase();
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
         const newUser = {
             name: userData.name,
             password: userData.password,
-            rol_id: userData.role_id,
+            role_id: userData.role_id,
         };
         fetch("http://localhost:1323/api/v1/users", {
             method: "POST",
@@ -49,89 +50,62 @@
     showUsers();
 </script>
 
-<div class="container" style="padding: 2%">
-    <div class="row">
-        <div class="col-6">
-            <div class="card">
-                <div class="card-body">
-                    <h3 class="card-title">Create User</h3>
-                    <div class="mb-3">
-                        <label for="" class="form-label">Nombre</label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            name=""
-                            aria-describedby="helpId"
-                            placeholder=""
-                            bind:value={userData.name}
-                        />
-                        <label for="" class="form-label">Contraseña</label>
-                        <input
-                                type="password"
-                                class="form-control"
-                                name=""
-                                aria-describedby="helpId"
-                                placeholder=""
-                                bind:value={userData.password}
-                        />
-                        <div class="mb-3">
-                            <label for="" class="form-label">Rol</label>
-                            <select
-                                class="form-control"
-                                name=""
-                                id=""
-                                bind:value={userData.role_id}
-                            >
-                                {#each $roles as rol}
-                                    <option value={rol.id}>{rol.name}</option>
-                                {/each}
-                            </select>
-                        </div>
-                        <button
-                            type="button"
-                            class="btn btn-success"
-                            on:click|preventDefault={createUser}>Crear</button
-                        >
-                    </div>
-                </div>
-            </div>
+
+<div class="container mx-auto py-6 grid grid-cols-2">
+    <div class="px-2">
+        <div class="py-3 px-8 border-gray-400 border-2 rounded-sm bg-slate-50">
+            <h3 class="text-xl uppercase">Crear</h3>
+            <br>
+            <label class="uppercase" for="">Nombre:</label>
+            <br>
+            <input type="text" class="rounded-sm border-gray-200 border-2 w-full" bind:value={userData.name}>
+            <br>
+            <label class="uppercase" for="">Contraseña</label>
+            <br>
+            <input type="password" class="rounded-sm border-gray-200 border-2 w-full" bind:value={userData.password}>
+            <br>
+            <label for="" class="uppercase">Rol:</label>
+            <br>
+            <select name="" class="bg-white border-2 border-gray-200" bind:value={userData.role_id}>
+                {#each $roles as rol}
+                    <option value={rol.id}>{rol.name}</option>
+                {/each}
+            </select>
+            <br>
+            <br>
+            <button class="bg-white border-rose-900 border-2 uppercase text-rose-900 rounded-sm p-2 hover:bg-rose-900 hover:text-white" on:click|preventDefault={createUser}>Crear</button>
         </div>
-        <div class="col-6">
-            <div class="card scroll">
-                <div class="card-body">
-                    <h3 class="card-title">Usuarios</h3>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {#if l === 0}
-                                <tr>
-                                    <td>0</td>
-                                    <td>Nada por aquí...</td>
-                                </tr>
-                            {:else}
-                                {#each users as user}
-                                    <tr>
-                                        <td>{user.id}</td>
-                                        <td>{user.name}</td>
-                                    </tr>
-                                {/each}
-                            {/if}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+    </div>
+    <div class="px-2">
+        <div class="py-3 px-8 border-gray-400 border-2 rounded-sm">
+            <label class="text-lg uppercase" for="">Lista usuarios</label>
+            <br>
+            <br>
+            <table class="w-full">
+                <thead>
+                    <tr class="text-center justify-center">
+                        <th class="py-1 text-center justify-center">ID</th>
+                        <th class="py-1 text-center justify-center">Nombre</th>
+                        <th class="py-1 text-right justify-items-end">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {#each users as user}
+                    <tr class="border-b-2">
+                        <td class="py-1 text-center justify-center">{user.id}</td>
+                        <td class="py-1 text-center justify-center">{user.name}</td>
+                        <td class="justify-items-end text-left">
+                            <div class="justify-items-end justify-end text-right">
+                                <button class="px-1 bg-white border-2 border-slate-800 text-black hover:bg-slate-800 hover:text-white"><small>EDITAR</small></button>
+                            </div>
+                        </td>
+                    </tr>
+                    {/each}
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
 
 <style>
-    .scroll {
-        max-height: 550pt;
-        overflow-y: auto;
-    }
 </style>

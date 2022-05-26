@@ -17,7 +17,6 @@
                         created_at: "",
                     };
                     l = collections.length;
-                    console.log(collections);
                 }
             })
     };
@@ -40,73 +39,52 @@
                 }
                 getCollections();
             })
-            //.catch(console.log());
     };
     getCollections();
 </script>
 
-<div class="container">
-    <div class="row">
-        <div class="col-6">
-            <div class="card">
-                <div class="card-header">Colecciones なぎさ</div>
-                <div class="card-body">
-                    {#if l === 0}
-                        <div class="card border-primary">
-                            <!-- <img class="card-img-top" src="holder.js/100px180/" alt=""> -->
-                            <div class="card-body">
-                                <strong>nada por aquí...</strong>
-                                <br />
-                                <small
-                                    >Usa el formulario para crear la primer
-                                    colección ---></small
-                                >
-                            </div>
-                        </div>
-                    {:else}
-                        {#each collections as collection}
-                            <div class="card border-primary">
-                                <!-- <img class="card-img-top" src="holder.js/100px180/" alt=""> -->
-                                <div class="card-body">
-                                    <h4 class="card-title">
-                                        {collection.name}
-                                    </h4>
-                                    <small class="card-text">
-                                        <b>Creada en:</b>
-                                        {collection.created_at}
-                                    </small>
-                                </div>
-                            </div>
-                        {/each}
-                    {/if}
-                </div>
-            </div>
+<div class="container mx-auto py-6 grid grid-cols-2">
+    <div class="px-2">
+        <div class="py-3 px-8 border-gray-400 border-2 rounded-sm bg-slate-50">
+            <h3 class="text-xl uppercase">Crear</h3>
+            <br>
+            <label class="uppercase" for="">Nombre:</label>
+            <br>
+            <input type="text" class="rounded-sm border-gray-200 border-2 w-full" bind:value={collectionData.name}>
+            <br>
+            <br>
+            <button class="bg-white border-rose-900 border-2 uppercase text-rose-900 rounded-sm p-2 hover:bg-rose-900 hover:text-white" on:click|preventDefault={createCollection}>Crear</button>
         </div>
-        <div class="col-6">
-            <div class="card">
-                <div class="card-header">Crear colección</div>
-                <div class="card-body">
-                    <div class="mb-3">
-                        <label for="" class="form-label">Nombre</label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            name=""
-                            id=""
-                            aria-describedby="helpId"
-                            placeholder=""
-                            bind:value={collectionData.name}
-                        />
-                        <br />
-                        <button
-                            type="button"
-                            class="btn btn-success"
-                            on:click|preventDefault={createCollection}
-                            >Crear</button
-                        >
-                    </div>
-                </div>
-            </div>
+    </div>
+    <div class="px-2">
+        <div class="py-3 px-8 border-gray-400 border-2 rounded-sm bg-slate-50">
+            <label class="text-lg uppercase" for="">Lista usuarios</label>
+            <br>
+            <br>
+            <table class="w-full">
+                <thead>
+                    <tr class="text-center justify-center uppercase">
+                        <th class="py-1 text-center justify-center">ID</th>
+                        <th class="py-1 text-center justify-center">Nombre</th>
+                        <th class="py-1 text-center justify-center">Creada</th>
+                        <th class="py-1 text-right justify-items-end">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {#each collections as collection}
+                    <tr class="border-b-2">
+                        <td class="py-1 text-center justify-center">{collection.id}</td>
+                        <td class="py-1 text-center justify-center">{collection.name}</td>
+                        <td class="py-1 text-center justify-center">{collection.created_at}</td>
+                        <td class="justify-items-end text-left">
+                            <div class="justify-items-end justify-end text-right">
+                                <button class="px-1 bg-white border-2 border-slate-800 text-black hover:bg-slate-800 hover:text-white"><small>EDITAR</small></button>
+                            </div>
+                        </td>
+                    </tr>
+                    {/each}
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
