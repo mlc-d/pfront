@@ -10,7 +10,7 @@
     };
     let l = 0;
     let showProducts = () => {
-        fetch("http://localhost:1323/api/v1/products")
+        fetch("http://localhost:1998/api/v1/products")
             .then((response) => response.json())
             .then((responseData) => {
                 if (responseData.length !== 0) {
@@ -20,7 +20,7 @@
     };
     showProducts();
     let showSkus = () => {
-        fetch("http://localhost:1323/api/v1/skus")
+        fetch("http://localhost:1998/api/v1/skus")
             .then((response) => response.json())
             .then((responseData) => {
                 if (responseData !== "{ message: 'Not Found' }") {
@@ -45,7 +45,7 @@
         };
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
-        fetch("http://localhost:1323/api/v1/skus", {
+        fetch("http://localhost:1998/api/v1/skus", {
             method: "POST",
             headers: myHeaders,
             body: JSON.stringify(newSku),

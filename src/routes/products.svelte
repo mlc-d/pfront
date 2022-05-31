@@ -1,5 +1,4 @@
 <script>
-  import {collections} from "../stores/collections.js";
 
   let products = [];
   let productData = {
@@ -7,12 +6,10 @@
     name: "",
     ref: "",
     description: "",
-    collection: "",
-    collection_id: null,
     created_at: "",
   };
   let showProducts = () => {
-    fetch("http://localhost:1323/api/v1/products")
+    fetch("http://localhost:1998/api/v1/products")
       .then((response) => response.json())
       .then((responseData) => {
         if (responseData !== "{ message: 'Not Found' }" && responseData !== null) {
@@ -22,7 +19,6 @@
             name: "",
             ref: "",
             description: "",
-            collection_id: null,
             created_at: "",
           };
         }
@@ -33,11 +29,10 @@
       name: productData.name,
       ref: productData.ref,
       description: productData.description,
-      collection_id: productData.collection_id,
     };
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
-    fetch("http://localhost:1323/api/v1/products", {
+    fetch("http://localhost:1998/api/v1/products", {
       method: "POST",
       headers: myHeaders,
       body: JSON.stringify(newProduct),
@@ -53,116 +48,46 @@
   showProducts();
 </script>
 
-<div class="container" style="padding: 1%;">
-  <div class="row">
-    <div class="col-8">
-      <div class="card">
-        <div class="card-body">
-          <table class="table">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Referencia</th>
-                <th>Nombre</th>
-                <th>Descripción</th>
-                <th>Colección</th>
-              </tr>
-            </thead>
-            <tbody>
-              {#if products.length === 0}
-                <tr>
-                  <td>nothing</td>
-                  <td>nothing</td>
-                  <td>nothing</td>
-                  <td>nothing</td>
-                  <td>nothing</td>
-                </tr>
-              {:else}
-                {#each products as product}
-                  <tr>
-                    <td>{product.id}</td>
-                    <td>{product.name}</td>
-                    <td>{product.ref}</td>
-                    <td>{product.description}</td>
-                    <td>{product.collection}</td>
-                  </tr>
-                {/each}
-              {/if}
-            </tbody>
-          </table>
-        </div>
-      </div>
+<div class="container mx-auto py-6 grid sm:grid-cols-1 lg:grid-cols-2">
+  <div class="px-2">
+    <div class="py-3 px-8 border-gray-400 border-2 rounded-sm bg-slate-50">
+      <h3 class="text-xl uppercase">Crear</h3>
+      <br>
+      <label class="" for="">NOMBRE:</label>
+      <br>
+      <input type="text" class="rounded-sm border-gray-200 border-2 w-full" bind:value={productData.name}>
+      <br>
+      <label class="uppercase" for="">REFERENCIA:</label>
+      <br>
+      <input type="text" class="rounded-sm border-gray-200 border-2 w-full" bind:value={productData.ref}>
+      <br>
+      <label class="uppercase" for="">DESCRIPCIÓN:</label>
+      <br>
+      <input type="text" class="rounded-sm border-gray-200 border-2 w-full" bind:value={productData.description}>
+      <br>
+      <br>
+      <button class="bg-white border-rose-900 border-2 uppercase text-rose-900 rounded-sm p-2 hover:bg-rose-900 hover:text-white" on:click|preventDefault={createProduct}>Crear</button>
     </div>
-    <div class="col-4">
-      <div class="card">
-        <div class="card-body">
-          <h3 class="card-title">Crear producto</h3>
-          <div class="mb-3">
-            <label for="" class="form-label">Nombre</label>
-            <input
-              type="text"
-              class="form-control"
-              name=""
-              id=""
-              aria-describedby="helpId"
-              placeholder=""
-              bind:value={productData.name}
-            />
-            <label for="" class="form-label">Referencia</label>
-            <input
-              type="text"
-              class="form-control"
-              name=""
-              id=""
-              aria-describedby="helpId"
-              placeholder=""
-              bind:value={productData.ref}
-            />
-            <label for="" class="form-label">Descripción</label>
-            <input
-              type="text"
-              class="form-control"
-              name=""
-              id=""
-              aria-describedby="helpId"
-              placeholder=""
-              bind:value={productData.description}
-            />
-            <div class="mb-3">
-              <label for="" class="form-label">Colección</label>
-              <select
-                class="form-control"
-                name=""
-                id=""
-                bind:value={productData.collection_id}
-              >
-                {#if $collections === null}
-                  <option>nada por aquí...</option>
-                  {:else}
-                  {#each $collections as collection}
-                    <option value={collection.id}>{collection.name}</option>
-                  {/each}
-                {/if}
-              </select>
+  </div>
+  <div class="px-2">
+    <div class="py-3 px-8 border-gray-400 border-2 rounded-sm bg-slate-50">
+      <label class="text-lg uppercase" for="">Lista Productos</label>
+      <br>
+      <br>
+      {#if products.length === 0}
+      <div><h2>Nada por aquí</h2></div>
+      {:else}
+        {#each products as product}
+          <div class="p-1">
+            <div class="border-2 border-slate-500 p-4">
+              <h2 class="uppercase font-bold">{product.name}</h2>
+              <p class="font-semibold">Ref: {product.ref}</p>
+              <p class="font-light">Descripción: {product.description}</p>
+              <small>{product.created_at.split('T', 1)}</small>
             </div>
-            {#if $collections === null}
-            <button
-              type="button"
-              class="btn btn-light"
-              disabled
-            >Crear</button
-            >
-              {:else}
-              <button
-                      type="button"
-                      class="btn btn-success"
-                      on:click|preventDefault={createProduct}
-              >Crear</button
-              >
-              {/if}
           </div>
-        </div>
-      </div>
+        {/each}
+      {/if}
     </div>
   </div>
 </div>

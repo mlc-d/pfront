@@ -9,7 +9,7 @@ import { get } from "svelte/store";
     };
     let l = 0;
     let getLocations = () => {
-        fetch("http://localhost:1323/api/v1/locations")
+        fetch("http://localhost:1998/api/v1/locations")
             .then((response) => response.json())
             .then((responseData) => {
                 if (responseData !== "{ message: 'Not Found' }" && responseData !== null) {
@@ -29,7 +29,7 @@ import { get } from "svelte/store";
         }
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json")
-        fetch("http://localhost:1323/api/v1/locations", {
+        fetch("http://localhost:1998/api/v1/locations", {
             method: "POST",
             headers: myHeaders,
             body: JSON.stringify(newLocation)

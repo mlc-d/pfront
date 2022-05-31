@@ -8,9 +8,9 @@
         password: "",
         role_id: null,
     };
-    let l = 0;
+    let l2 = 0
     let showUsers = () => {
-        fetch("http://localhost:1323/api/v1/users")
+        fetch("http://localhost:1998/api/v1/users")
             .then((response) => response.json())
             .then((responseData) => {
                 if (responseData !== "{ message: 'Not Found' }" && responseData !== null) {
@@ -20,7 +20,7 @@
                         name: "",
                         role_id: null,
                     };
-                    l = users.length;
+                    l2 = users.length
                 }
             })
     };
@@ -34,14 +34,14 @@
             password: userData.password,
             role_id: userData.role_id,
         };
-        fetch("http://localhost:1323/api/v1/users", {
+        fetch("http://localhost:1998/api/v1/users", {
             method: "POST",
             headers: myHeaders,
             body: JSON.stringify(newUser),
         })
-            .then((response) => response.text())
+            .then((response) => response.json())
             .then((responseData) => {
-                if (responseData !== "ok") {
+                if (responseData !== "success") {
                     alert(responseData);
                 }
                 showUsers();
@@ -53,7 +53,7 @@
 
 <div class="container mx-auto py-6 grid grid-cols-2">
     <div class="px-2">
-        <div class="py-3 px-8 border-gray-400 border-2 rounded-sm bg-slate-50">
+        <div class="py-3 px-8 border-gray-400 border-2 rounded-sm bg-slate-50 hover:shadow-lg">
             <h3 class="text-xl uppercase">Crear</h3>
             <br>
             <label class="uppercase" for="">Nombre:</label>
@@ -67,9 +67,13 @@
             <label for="" class="uppercase">Rol:</label>
             <br>
             <select name="" class="bg-white border-2 border-gray-200" bind:value={userData.role_id}>
-                {#each $roles as rol}
-                    <option value={rol.id}>{rol.name}</option>
-                {/each}
+                {#if $roles.length === 0}
+                    <option value="">nada por aquí...</option>
+                    {:else}
+                        {#each $roles as r}
+                            <option value={r.id}>{r.role}</option>
+                        {/each}
+                {/if}
             </select>
             <br>
             <br>
@@ -77,7 +81,7 @@
         </div>
     </div>
     <div class="px-2">
-        <div class="py-3 px-8 border-gray-400 border-2 rounded-sm">
+        <div class="py-3 px-8 border-gray-400 border-2 rounded-sm hover:shadow-lg">
             <label class="text-lg uppercase" for="">Lista usuarios</label>
             <br>
             <br>
@@ -90,17 +94,27 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {#each users as user}
+                {#if l2 === 0}
                     <tr class="border-b-2">
-                        <td class="py-1 text-center justify-center">{user.id}</td>
-                        <td class="py-1 text-center justify-center">{user.name}</td>
+                        <td class="py-1 text-center justify-center">...</td>
+                        <td class="py-1 text-center justify-center">...</td>
+                        <td class="py-1 text-center justify-end text-right">...</td>
                         <td class="justify-items-end text-left">
-                            <div class="justify-items-end justify-end text-right">
-                                <button class="px-1 bg-white border-2 border-slate-800 text-black hover:bg-slate-800 hover:text-white"><small>EDITAR</small></button>
-                            </div>
                         </td>
                     </tr>
+                    {:else}
+                    {#each users as user}
+                        <tr class="border-b-2">
+                            <td class="py-1 text-center justify-center">{user.id}</td>
+                            <td class="py-1 text-center justify-center">{user.name}</td>
+                            <td class="justify-items-end text-left">
+                                <div class="justify-items-end justify-end text-right">
+                                    <button class="px-1 bg-white border-2 border-slate-800 text-black hover:bg-slate-800 hover:text-white"><small>EDITAR</small></button>
+                                </div>
+                            </td>
+                        </tr>
                     {/each}
+                {/if}
                 </tbody>
             </table>
         </div>
