@@ -1,4 +1,6 @@
 import {token} from "../stores/auth.js";
+import jwt_decode from "jwt-decode";
+import {authenticated, rol, username} from "../stores/session.js";
 
 
 const refreshToken = async () => {
@@ -34,9 +36,12 @@ let apiFetch = async (url, config={}, tk) => {
         config['headers'] = {
             'accessToken': tk
         }
-        let newResponse = await originalRequest(url, config)
-        response = newResponse.response
-        data = newResponse.data
+        let newResponse = await originalRequest(url, config);
+        response = newResponse.response;
+        data = newResponse.data;
+        username.set(jwt_decode(tk)["sub"]);
+        rol.set(jwt_decode(tk)["rol"])
+        authenticated.set(true)
     }
     return {response, data}
 }

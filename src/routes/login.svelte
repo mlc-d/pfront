@@ -1,6 +1,8 @@
 <script>
     import {goto} from "$app/navigation";
     import {token} from "../stores/auth.js";
+    import {authenticated, rol, username} from "../stores/session.js";
+    import jwt_decode from 'jwt-decode';
 
     let formInfo = {
         name: "",
@@ -17,11 +19,15 @@
             const res = await fetch('http://localhost:1998/login', {
                 method: 'POST',
                 headers: myHeaders,
+                credentials: 'include',
                 body: JSON.stringify(logInDetails)
             });
             const data = await res.json();
             if ("accToken" in data) {
                 token.set(data.accToken);
+                username.set(jwt_decode($token)["sub"]);
+                rol.set(jwt_decode($token)["rol"]);
+                authenticated.set(true)
                 await goto('/');
             }
 
