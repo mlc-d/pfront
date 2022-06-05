@@ -1,7 +1,4 @@
 <script>
-import { get } from "svelte/store";
-
-
     let locations = [];
     let locationData = {
         name: "",
@@ -27,7 +24,7 @@ import { get } from "svelte/store";
         const newLocation = {
             name: locationData.name
         }
-        var myHeaders = new Headers();
+        let myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json")
         fetch("http://localhost:1998/api/v1/locations", {
             method: "POST",

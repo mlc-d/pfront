@@ -1,34 +1,33 @@
 <script>
     import {goto} from "$app/navigation";
+    import {token} from "../stores/auth.js";
 
     let formInfo = {
         name: "",
         password: "",
     };
-    const logIn = () => {
+    const logIn = async () => {
         let logInDetails = {
             name: formInfo.name,
-            password: formInfo.password,
-        };
-        const url = "http://localhost:1998/login";
-        const header = new Headers();
-        header.append("Content-Type", "application/json");
-        const res = fetch(url, {
-            method: "POST",
-            headers: header,
-            body: JSON.stringify(logInDetails),
-            credentials: "include"
-        }).then(res => res.json())
-            .then(data => {
-                if (data === "success") {
-                    goto("/")
-                } else {
-                    formInfo = {
-                        name: "",
-                        password: "",
-                    };
-                }
-            })
+            password: formInfo.password
+        }
+        try{
+            let myHeaders = new Headers();
+            myHeaders.append("Content-type", "application/json")
+            const res = await fetch('http://localhost:1998/login', {
+                method: 'POST',
+                headers: myHeaders,
+                body: JSON.stringify(logInDetails)
+            });
+            const data = await res.json();
+            if ("accToken" in data) {
+                token.set(data.accToken);
+                await goto('/');
+            }
+
+        }catch (error) {
+            console.log("error: ", error)
+        }
     }
 </script>
 
