@@ -1,7 +1,7 @@
 <script>
     import {goto} from "$app/navigation";
     import {token} from "../stores/auth.js";
-    import {authenticated, rol, username} from "../stores/session.js";
+    import {active_user_id, authenticated, rol, username} from "../stores/session.js";
     import jwt_decode from 'jwt-decode';
 
     let formInfo = {
@@ -27,7 +27,8 @@
                 token.set(data.accToken);
                 username.set(jwt_decode($token)["sub"]);
                 rol.set(jwt_decode($token)["rol"]);
-                authenticated.set(true)
+                active_user_id.set(jwt_decode($token)["uid"]);
+                authenticated.set(true);
                 await goto('/');
             }
 

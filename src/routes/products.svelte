@@ -10,12 +10,12 @@
         ref: "",
         description: "",
     };
-    let lengthLotes = 0;
+    let lengthbatches = 0;
     const getProducts = async () => {
         try{
             let {res, data} = await apiFetch('/api/v1/products', {}, $token);
             products = data;
-            lengthLotes = products.length;
+            lengthbatches = products.length;
         }catch (error) {
             console.log(error);
         }
@@ -67,7 +67,7 @@
             <label class="text-lg uppercase">Lista Productos</label>
             <br>
             <br>
-            {#if lengthLotes === 0}
+            {#if lengthbatches === 0}
                 <div><h2>Nada por aquí</h2></div>
             {:else}
                 {#each products as product}
