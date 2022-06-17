@@ -1,12 +1,15 @@
 <script>
-    import {token} from "../stores/auth.js";
-    import {apiFetch} from "../interceptors/fetch.js"
+    import { authenticated, token } from "../stores/auth.js";
+    import { apiFetch } from "../interceptors/fetch.js"
+    import { checkAuth } from "../stores/session.js";
 
     let batches = [];
     let batchData = {
         batch: "",
     };
     let lengthbatches = 0;
+
+    
     const getbatches = async () => {
         try{
             let {res, data} = await apiFetch('/api/v1/batches', {}, $token);

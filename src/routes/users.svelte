@@ -1,9 +1,11 @@
 <script>
-    import { token } from "../stores/auth.js";
+    import { authenticated, token } from "../stores/auth.js";
     import { apiFetch } from "../interceptors/fetch.js";
-    import { rol } from "../stores/session.js";
+    import { checkAuth, rol } from "../stores/session.js";
     import { isOverlayOpen } from "../stores/Overlay.js";
     import Overlay from "../components/Overlay.svelte";
+
+    
 
     let users = [];
     let roles = [];

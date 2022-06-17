@@ -1,8 +1,7 @@
 <script>
-    import {apiFetch} from "../interceptors/fetch.js";
-    import {token} from "../stores/auth.js";
-    import {rol} from "../stores/session.js";
-    import {goto} from "$app/navigation";
+    import { apiFetch } from "../interceptors/fetch.js";
+    import { authenticated, token} from "../stores/auth.js";
+    import { checkAuth } from "../stores/session.js";
 
     let products = [];
     let productData = {
@@ -11,6 +10,7 @@
         description: "",
     };
     let lengthbatches = 0;
+
     const getProducts = async () => {
         try{
             let {res, data} = await apiFetch('/api/v1/products', {}, $token);
@@ -37,12 +37,6 @@
         };
         await getProducts();
     }
-    /*const checkAuth = async () => {
-        if ($rol > 2) {
-            await goto('/')
-        }
-    }
-    checkAuth();*/
     getProducts();
 </script>
 

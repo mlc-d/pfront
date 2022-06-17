@@ -22,7 +22,7 @@
                 <a class="mx-2 text-lg text-gray-800" href="/operations/allocate">Movimientos</a>
             </div>
         </div>
-
+        <a class="mx-2 uppercase text-right" href="/logout">Logout</a>
     </div>
 </nav>
 

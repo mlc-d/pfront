@@ -1,7 +1,7 @@
 <script>
-    import {token} from "../stores/auth";
+    import {authenticated, token} from "../stores/auth";
     import {apiFetch} from "../interceptors/fetch.js";
-    import {rol} from "../stores/session.js";
+    import {checkAuth, rol} from "../stores/session.js";
 
     let skus = [];
     let products = [];
@@ -13,6 +13,7 @@
         product_id: null,
     };
 
+    
     const getSkus = async () => {
         try {
             let {res, data} = await apiFetch('/api/v1/skus',{},$token);

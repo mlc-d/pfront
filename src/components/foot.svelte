@@ -1,5 +1,6 @@
 <script>
-    import {authenticated, username} from "../stores/session.js";
+    import { username } from "../stores/session.js";
+    import { authenticated } from "../stores/auth.js"
 </script>
 
 <div class="bg-slate-900 grid grid-cols-2 sticky text-gray-50 footer w-full py-0">

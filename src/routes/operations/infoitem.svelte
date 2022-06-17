@@ -1,26 +1,14 @@
 <script>
-    import { token } from "../../stores/auth.js";
+    import { authenticated, token } from "../../stores/auth.js";
     import { apiFetch } from "../../interceptors/fetch.js";
+    import { checkAuth } from "../../stores/session.js";
 
-
-    // imports
-
+    
     let item = {}
     let histories = [];
     let requestedUic = "";
     var fulfilled;
-
-    // echo api
-    const echoApi = async () => {
-        try {
-            let {res, data} = await apiFetch('/api/v1/', {}, $token)
-        } catch (error) {
-            console.log(error);
-        }
-    }
-    echoApi();
-
-    // 2022-06-11T00:04:59.126304-05:00
+    
     const sanitizeDate = (date) => {
         try {
             let values = date.split('T', 2);
@@ -30,7 +18,7 @@
             console.log(error);
         }
     }
-
+    
     const getItem = async () => {
         try {
             let {res, data} = await apiFetch(`/api/v1/item?uic=${requestedUic}`, {}, $token);
@@ -44,14 +32,14 @@
             console.log(error);
         }
     }
-
+    
     const getHistory = async () => {
         if (fulfilled) {
             let {res, data} = await apiFetch(`/api/v1/history?uic=${requestedUic}`, {}, $token);
             return data;
         }
     }
-
+    
     const getInformation = async () => {
         fulfilled = false;
         item = await getItem();
@@ -61,7 +49,7 @@
             history.created_at = sanitizeDate(history.created_at);
         });
     }
-
+    
 </script>
 
 <div class="h-screen">

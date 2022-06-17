@@ -1,10 +1,11 @@
-import {token} from "../stores/auth.js";
+import { authenticated, token } from "../stores/auth.js";
 import jwt_decode from "jwt-decode";
-import {active_user_id, authenticated, rol, username} from "../stores/session.js";
+import {active_user_id, rol, username} from "../stores/session.js";
 
+let baseURL = 'http://localhost:1998'
 
 const refreshToken = async () => {
-    const res = await fetch('http://localhost:1998/refresh', {
+    const res = await fetch(`${baseURL}/refresh`, {
         method: 'POST',
         credentials: 'include'
     });
@@ -13,7 +14,6 @@ const refreshToken = async () => {
     return data.accToken
 }
 
-let baseURL = 'http://localhost:1998'
 
 let originalRequest = async (url, config)=> {
     url = `${baseURL}${url}`

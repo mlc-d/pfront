@@ -1,13 +1,14 @@
 <script>
-    import {goto} from "$app/navigation";
-    import {token} from "../stores/auth.js";
-    import {active_user_id, authenticated, rol, username} from "../stores/session.js";
+    import { goto } from "$app/navigation";
+    import { authenticated, token } from "../stores/auth.js";
+    import { active_user_id, rol, username } from "../stores/session.js";
     import jwt_decode from 'jwt-decode';
 
     let formInfo = {
         name: "",
         password: "",
     };
+
     const logIn = async () => {
         let logInDetails = {
             name: formInfo.name,
@@ -31,7 +32,6 @@
                 authenticated.set(true);
                 await goto('/');
             }
-
         }catch (error) {
             console.log("error: ", error)
         }
