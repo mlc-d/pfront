@@ -1,9 +1,11 @@
 <script>
+    import { rol } from "../stores/session.js";
 </script>
 
 <nav class="flex border-rose-800 border-2 py-1 hover:shadow-md px-2">
     <div>
         <a class="mx-2 text-lg text-gray-800 uppercase font-extrabold" href="/">>_</a>
+        {#if $rol <= 4}
         <div class="dropdown">
             <span class="uppercase">administración</span>
             <div class="dropdown-content bg-gray-50 border-rose-900 border-2 rounded-sm">
@@ -14,6 +16,7 @@
                 <a class="mx-2 text-lg text-gray-800" href="/skus">Skus</a>
             </div>
         </div>
+        {/if}
         <div class="dropdown">
             <span class="uppercase">Operaciones</span>
             <div class="dropdown-content bg-gray-50 border-rose-900 border-2 rounded-sm">
